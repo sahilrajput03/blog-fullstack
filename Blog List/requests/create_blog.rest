@@ -1,0 +1,13 @@
+#create note with authorization
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNyYWpwdXQzIiwiaWQiOiI1ZTg2MjNiNjU1M2E4MzEzMzAwMDc2MjciLCJpYXQiOjE1ODU4NTM0OTR9.G9XJrys5GToR6D2rX-iy9I3EA4T3octK4SSmBfTDaq8
+
+{
+  "title": "Beat everyone..!!.",
+  "likes": 332,
+  "author": "kalia",
+  "url": "www.jujn.ml"
+}
+
+# Commenting is allowed in rest files, try via Ctrl + /
