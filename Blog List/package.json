@@ -6,7 +6,7 @@
   "scripts": {
     "nodemon": "nodemon index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand",
-    "push-to-github": "git add . && git commit -m \" Just finished with exercise 4.6, 4.7 in the course. \" && git push "
+    "push-to-github": "cd .. && git add . && git commit -m \" Automated Commit from script. \" && git push "
   },
   "author": "Sahil Rajput",
   "license": "ISC",
