@@ -19,11 +19,15 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [loginVisible, setLoginVisible] = useState(false);
-  const [readyToFetch,setreadyToFetch] = useState(false)
+  const [readyToFetch, setreadyToFetch] = useState(false);
+
   useEffect(() => {
-    user && readyToFetch&& blogService.getAll().then((initialNotes) => setBlogs(initialNotes)) && setreadyToFetch(false)
+    user &&
+      readyToFetch &&
+      blogService.getAll().then((initialNotes) => setBlogs(initialNotes)) &&
+      setreadyToFetch(false);
     console.log("useeffect executed..");
-  },[user,readyToFetch]);
+  }, [user, readyToFetch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -31,7 +35,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogService.setToken(user.token);
-      setreadyToFetch(true)
+      setreadyToFetch(true);
     }
   }, []);
 
@@ -52,7 +56,7 @@ const App = () => {
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
-      setreadyToFetch(true)
+      setreadyToFetch(true);
       setUsername("");
       setPassword("");
     } catch (exception) {
@@ -72,6 +76,7 @@ const App = () => {
         likes={b.likes}
         url={b.url}
         user={b.user}
+        ref={detailsblogref}
       />
     ));
 
@@ -107,9 +112,9 @@ const App = () => {
   const handleChangeUrl = (event) => {
     setNewUrl(event.target.value);
   };
-  
 
   const noteFormRef = React.createRef();
+  const detailsblogref = React.createRef();
 
   const addNote = (event) => {
     event.preventDefault();
@@ -126,15 +131,15 @@ const App = () => {
       setBlogs(blogs.concat(data));
       setErrorMessage(`${newBlog} CREATED BY ${newAuthor} WITH URL: ${newUrl}`);
       setNewBlog("");
-      setNewAuthor("")
-      setNewUrl("")
+      setNewAuthor("");
+      setNewUrl("");
       setTimeout(() => {
         setErrorMessage(null);
       }, 10000);
     });
   };
 
-  return (
+    return (
     <div>
       <h1>Blogs</h1>
 
@@ -154,12 +159,15 @@ const App = () => {
               }, 5000);
               setUser(null);
               setLoginVisible(false);
-              setBlogs([])
+              setBlogs([]);
             }}
           >
             Logout
           </button>
-          <Togglable buttonLabel="Add new blog to the webiste" ref={noteFormRef}>
+          <Togglable
+            buttonLabel="Add new blog to the webiste"
+            ref={noteFormRef}
+          >
             <BlogForm
               onSubmit={addNote}
               valueBlog={newBlog}
@@ -168,7 +176,7 @@ const App = () => {
               handleChangeBlog={handleChangeBlog}
               handleChangeAuthor={handleChangeAuthor}
               handleChangeUrl={handleChangeUrl}
-            />
+            ></BlogForm>
           </Togglable>
         </div>
       )}
