@@ -24,9 +24,9 @@ const App = () => {
   useEffect(() => {
     user &&
       readyToFetch &&
-      blogService.getAll().then((initialNotes) => setBlogs(initialNotes)) &&
+      blogService.getAll().then((initialNotes) => setBlogs(initialNotes.sort((a,b)=>b.likes-a.likes))) &&
       setreadyToFetch(false);
-    console.log("useeffect executed..");
+    // console.log("useeffect executed..");
   }, [user, readyToFetch]);
 
   useEffect(() => {
@@ -67,6 +67,27 @@ const App = () => {
     }
   };
 
+  const likePost = (id) => {
+    const blog = blogs.find((n) => n.id === id);
+    const changedBlog = { ...blog, likes: blog.likes+1 };
+
+    blogService
+      .update(id, changedBlog)
+      .then((returnedBlog) => {
+        setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
+        setreadyToFetch(true)
+      })
+      .catch(() => {
+        setErrorMessage(
+          `Network failed. Turn on your mobile data.`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 2000);
+        // setNotes(blogs.filter((n) => n.id !== id));
+      });
+  };
+
   const rows = () =>
     blogs.map((b) => (
       <Blog
@@ -76,7 +97,8 @@ const App = () => {
         likes={b.likes}
         url={b.url}
         user={b.user}
-        ref={detailsblogref}
+        id={b.id}
+        likePost={()=>likePost(b.id)}
       />
     ));
 
@@ -114,7 +136,6 @@ const App = () => {
   };
 
   const noteFormRef = React.createRef();
-  const detailsblogref = React.createRef();
 
   const addNote = (event) => {
     event.preventDefault();
