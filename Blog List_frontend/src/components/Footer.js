@@ -10,9 +10,9 @@ const Footer = () => {
   return (
     <div style={footerStyle}>
       <br />
-      <em>Note app, Department of Computer Science, University of Helsinki 2019</em>
+      <em>React is difficult... Yes it is..</em>
     </div>
   )
 }
 
-export default Footer 
+export default Footer
