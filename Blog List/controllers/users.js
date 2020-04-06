@@ -9,6 +9,19 @@ usersRouter.get("/", async (request, response) => {
   response.json(users.map((u) => u.toJSON()));
 });
 
+usersRouter.get("/:id", async (request, response, next) => {
+  try {
+    const user = await User.findById(request.params.id);
+    if (user) {
+      response.json(user.toJSON());
+    } else {
+      response.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 usersRouter.post("/", async (request, response, next) => {
   try {
     const body = request.body;

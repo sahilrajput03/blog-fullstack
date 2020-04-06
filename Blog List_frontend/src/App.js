@@ -33,6 +33,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
+      console.log('user:-',user)
       setUser(user);
       blogService.setToken(user.token);
       setreadyToFetch(true);
@@ -88,8 +89,19 @@ const App = () => {
       });
   };
 
-  const rows = () =>
-    blogs.map((b) => (
+  const deletePost = (id)=>{
+    const [toBeDeletedBlog] = blogs.filter((b)=>b.id ===id)
+    // window.confirm(toBeDeletedBlog.title)
+    // const confirmed = window.confirm('Do you really want to delete:',toBeDeletedBlog.title,' by ',toBeDeletedBlog.author,' ?')
+    // const confirmed = window.confirm('Do you really want to delete:',toBeDeletedBlog.title)
+    const confirmed = window.confirm(`Do you really want to delete - ${toBeDeletedBlog.title} It was added by ${toBeDeletedBlog.author}.`)
+    confirmed && blogService.deleteWithId(id).then((t)=> console.log(t))
+    setreadyToFetch(true)
+  }
+
+  const rows = () =>{
+    
+    return blogs.map((b) => (
       <Blog
         key={b.id}
         title={b.title}
@@ -97,10 +109,13 @@ const App = () => {
         likes={b.likes}
         url={b.url}
         user={b.user}
+        currentuser={user.id}
         id={b.id}
         likePost={()=>likePost(b.id)}
+        deletePost={()=>deletePost(b.id)}
       />
-    ));
+    ))
+  }
 
   const loginForm = () => {
     const hideWhenVisible = { display: loginVisible ? "none" : "" };

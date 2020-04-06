@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-
 const Blog = (props) => {
-  // { title, url, likes, author, user }
+  const currentuser = props.currentuser
+  const user = props.user
+  const deletebuttonstyleobject = {
+    backgroundColor: "orange",
+    border: "2px solid red",
+    borderRadius: "20px",
+    padding: "5px",
+    margin: "5px",
+    width: "fit-content",
+    outline: "0",
+    display: "",
+  }
+  
+  if(user !== currentuser){
+    deletebuttonstyleobject.display = ('none')
+  }
   const [visible, setVisible] = useState(false);
-
   // const hideWhenVisibleistrue = { display: visible ? "none" : "" };
   const showWhenVisibleisfalse = { display: visible ? "" : "none" };
   const toggleVisibility = () => {
@@ -22,16 +35,20 @@ const Blog = (props) => {
         }}
       >
         <div onClick={toggleVisibility}>
-          {props.title} - {props.author} <br></br>
+          {props.title}
+          <br></br>
         </div>
         {/* <div style={hideWhenVisibleistrue}>
         </div> */}
         <div style={showWhenVisibleisfalse}>
-          URL: {props.url} LIKES:{props.likes}
+          {props.url}
+          <br></br>
+          {props.likes} Likes<br></br>
+          Author - {props.author}
           <button
             style={{
               backgroundColor: "lightblue",
-              border: "1px solid blue",
+              border: "2px solid blue",
               borderRadius: "20px",
               padding: "5px",
               margin: "5px",
@@ -41,6 +58,12 @@ const Blog = (props) => {
             onClick={props.likePost}
           >
             Click to like
+          </button>
+          <button
+            style={deletebuttonstyleobject}
+            onClick={props.deletePost}
+          >
+            Delete
           </button>
         </div>
       </div>
